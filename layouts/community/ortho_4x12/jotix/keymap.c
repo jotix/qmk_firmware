@@ -6,12 +6,14 @@ enum layers {
   _RAISE,
   _MOUSE,
   _NUMPAD,
+  _GAME,
 };
 
 #define LOWER   MO(_LOWER)
 #define RAISE   MO(_RAISE)
 #define MOUSE   TG(_MOUSE)
 #define NUMPAD  TG(_NUMPAD)
+#define GAME    TG(_GAME)
 
 static bool is_ctl_pressed;
 static bool is_esc_pressed;
@@ -35,7 +37,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ┌───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┐
     KC_GRV, KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   _______,
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
-    _______,KC_VOLD,KC_MUTE,KC_VOLU,DM_PLY1,DM_REC1,DM_RSTP,KC_PSCR,KC_SLCK,KC_PAUS,_______,_______,
+    _______,KC_VOLD,KC_MUTE,KC_VOLU,DM_PLY1,DM_REC1,DM_RSTP,KC_PSCR,KC_SLCK,KC_PAUS,_______,GAME,
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
     _______,KC_MPRV,KC_MPLY,KC_MNXT,DM_PLY2,DM_REC2,NUMPAD, MOUSE,  _______,_______,_______,_______,
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
@@ -78,12 +80,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,_______,_______,_______,_______,_______,_______,_______,KC_P0,  KC_PDOT,KC_PAST,KC_PEQL
 // └───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┘
 ),
+
+[_GAME] = LAYOUT_ortho_4x12 (
+// ┌───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┐
+    _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,
+// ├───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+    _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,
+// ├───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+    _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,KC_UP,  _______,
+// ├───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+    _______,_______,_______,_______,_______,_______,_______,_______,KC_SLSH,KC_LEFT,KC_DOWN,KC_RGHT
+// └───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┘
+),
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   #ifdef JOTANCK_LEDS
-  writePin(JOTANCK_LED1, (get_highest_layer(state) == _MOUSE));
-  writePin(JOTANCK_LED2, (get_highest_layer(state) == _NUMPAD));
+  writePin(JOTANCK_LED1, (get_highest_layer(state) == _MOUSE  || get_highest_layer(state) == _GAME));
+  writePin(JOTANCK_LED2, (get_highest_layer(state) == _NUMPAD || get_highest_layer(state) == _GAME));
   #endif
   return state;
 }
