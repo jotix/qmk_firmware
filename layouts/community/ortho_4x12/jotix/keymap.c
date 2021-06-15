@@ -45,9 +45,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ┌───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┐
     _______,KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_PSCR,KC_SLCK,KC_PAUS,KC_VOLD,KC_MUTE,KC_VOLU,_______,
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
-    _______,KC_F5,  KC_F6,  KC_F7,  KC_F8,  DM_REC1,DM_REC2,DM_RSTP,KC_MPRV,KC_MNXT,KC_MPLY,_______,
+    _______,KC_F5,  KC_F6,  KC_F7,  KC_F8,  DM_REC1,DM_REC2,DM_RSTP,KC_MPRV,KC_MPLY,KC_MNXT,_______,
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
-    _______,KC_F9,  KC_F10, KC_F11, KC_F12, DM_PLY1,DM_PLY2,KC_CAPS,KC_APP, KC_INS, GAME,   _______,
+    _______,KC_F9,  KC_F10, KC_F11, KC_F12, DM_PLY1,DM_PLY2,KC_CAPS,GAME,   KC_INS, KC_APP, _______,
 // ├───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
     _______,_______,_______,_______,_______,_______,_______,_______,KC_HOME,KC_PGDN,KC_PGUP,KC_END
 // └───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┘
@@ -75,13 +75,12 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 bool led_update_user(led_t led_state) {
   // NumLock allways on
-  if (!led_state.num_lock) {
-    tap_code(KC_NUMLOCK);
-  }
+  //if (!led_state.num_lock) {
+  //  tap_code(KC_NUMLOCK);
+  //}
+  // caps lock
   #ifdef JOTANCK_LEDS
-  if (led_state.caps_lock) {
-    writePin(JOTANCK_LED1, led_state.caps_lock);  
-  }
+  writePin(JOTANCK_LED1, led_state.caps_lock);  
   return true;
   #endif
 }
